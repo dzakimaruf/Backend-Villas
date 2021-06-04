@@ -68,6 +68,7 @@ const villas = (sequelize, DataTypes) => {
   Villas.associate = models => {
     Villas.hasMany(models.Villas_comments,{foreignKey: 'vico_villa_id', onDelete: 'CASCADE'});
     Villas.hasMany(models.Line_items,{foreignKey: 'lite_villa_id', onDelete: 'CASCADE'});
+    Villas.hasMany(models.Villas_images,{foreignKey: 'viim_villa_id', onDelete: 'CASCADE'});
     Villas.belongsTo(models.Users,{foreignKey: 'villa_user_id'});
   };
   
