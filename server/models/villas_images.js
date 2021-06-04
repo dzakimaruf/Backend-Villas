@@ -45,7 +45,9 @@ const villas_images = (sequelize, DataTypes) => {
       },
     ]
   });
-  
+  Villas_images.associate = models => {
+    Villas_images.belongsTo(models.Villas,{foreignKey: 'viim_villa_id'});
+  };
   return Villas_images
 };
 export default villas_images; 
