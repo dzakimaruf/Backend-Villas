@@ -19,27 +19,27 @@ const findOne = async (req, res) => {
     return res.send(Lite);
 }
 
-const createlite = async(req,res) => {
+const createlite = async (req, res) => {
     const cart = req.cart
     const villas = req.villas
-try {
-   /*  const course = req.course */
-    /* let price = course.course_price * req.body.lite_qty * 0.95 */
-    const item = await req.context.models.Line_items.create(
-        {  
-            lite_days : req.body.lite_days,
-            lite_status : 'cart',
-            lite_villa_id : villas.villa_id,
-            lite_vica_id : cart.vica_id,
-            
-    },
-   {returning: true, where: {lite_id: req.params.id}}
-    )
-    return res.send(item)
-} catch (error) {
-    console.log(error)
-    return res.send(error);
-}
+    try {
+        
+        const lite_price = villas.villa_price 
+        const item = await req.context.models.Line_items.create(
+            {
+                lite_days: req.body.lite_days,
+                lite_status: 'cart',
+                lite_villa_id: villas.villa_id,
+                lite_vica_id: cart.vica_id,
+                lite_price: lite_price 
+
+            },
+        )
+        return res.send(item)
+    } catch (error) {
+        console.log(error)
+        return res.send(error);
+    }
 }
 const update1 = async (req, res) => {
     const {item} = req.data;

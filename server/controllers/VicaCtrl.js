@@ -4,18 +4,39 @@ import villa_cart from '../models/villa_cart';
 
 const createc = async (req, res, next) => {
     try {
+        
+        let cocart = req.cart
         const user = req.users
-
-        const cart = await req.context.models.Villa_cart.create(
+        if(!cocart){
+        const vicart = await req.context.models.Villa_cart.create(
             {
                 vica_status: "open",
                 vica_user_id: user.user_id,
             }
-        );
-        req.cart = villa_cart
+        );}
+        req.vicart = vicart
         next()
     } catch (error) {
         return res.send(error)
+    }
+}
+const findOne = async (req, res, next) => {
+    try {
+
+        const cart = await req.context.models.Villa_cart.findOne({
+            
+            include: req.context.models.Line_items,
+           
+            where: {
+                vica_user_id: req.params.id,
+                vica_status: "open",
+            }
+        });
+        req.cart = cart
+        next();
+
+    } catch (error) {
+        console.log(error)
     }
 }
 
@@ -65,6 +86,7 @@ const update1 = async (req, res, next) => {
 export default {
     createc,
     findOne1,
+    findOne,
     update1,
     update
 }

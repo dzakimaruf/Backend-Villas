@@ -227,6 +227,17 @@ const checkL = async (req, res, next) => {
     console.log(error)
   }
 }
+const checkuser = async (req, res, next) => {
+  try {
+    const data = await req.context.models.Users.findOne({
+      where: { user_id: req.params.id }
+    })
+    req.user = data
+    next()
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 // Gunakan export default agar semua function bisa dipakai di file lain.
 export default {
@@ -237,5 +248,6 @@ export default {
   signout,
   update,
   hasAuthorization,
-  checkL
+  checkL,
+  checkuser
 }

@@ -14,7 +14,8 @@ const findAll = async (req, res) => {
 const findOne = async (req, res, next) => {
     try {
         const villas = await req.context.models.Villas.findOne({
-            where: { villa_id: req.params.id }
+            include: [{ all: true }],
+            where: { villa_id: req.body.villa_id }
         });
         req.villas = villas
         next()

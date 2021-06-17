@@ -51,7 +51,7 @@ app.use('/api/user', routes.UserRoute);
 //app.use('/api/carts', routes.VicaRoute);
 app.use('/api/comments', routes.VicoRoute);
 app.use('/api/upload', routes.UploadRoute);
-app.use('/api/lite', routes.CheckoutRoute);
+app.use('/api/checkout', routes.CheckoutRoute);
 
 
 

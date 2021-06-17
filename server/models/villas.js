@@ -42,6 +42,10 @@ const villas = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: true
     },
+    villa_status: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
     villa_user_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
