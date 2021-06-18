@@ -14,7 +14,8 @@ const findAll = async (req, res) => {
 const findOne = async (req, res, next) => {
     try {
         const villas = await req.context.models.Villas.findOne({
-            where: { villa_id: req.params.id }
+            include: [{ all: true }],
+            where: { villa_id: req.body.villa_id }
         });
         req.villas = villas
         next()
@@ -34,7 +35,7 @@ const findOne1 = async (req, res, next) => {
             //create body cors_id 
             where: { villa_id: x.lite_villa_id }
         })
-        price = villas.villa_price 
+        price = villas.villa_price
 
         if (x.lite_days > 2) {
             discount = price * 0.05;
@@ -61,6 +62,7 @@ const create = async (req, res) => {
         villa_lantai: req.body.villa_lantai,
         villa_fasilitas: req.body.villa_fasilitas,
         villa_price: req.body.villa_price,
+        villa_status: req.body.villa_status,
         villa_user_id: req.body.villa_user_id
 
     });
@@ -80,6 +82,7 @@ const update = async (req, res) => {
             villa_lantai: req.body.villa_lantai,
             villa_fasilitas: req.body.villa_fasilitas,
             villa_price: req.body.villa_price,
+            villa_status: req.body.villa_status,
             villa_user_id: req.body.villa_user_id
 
         },
@@ -104,14 +107,26 @@ const rawSQL = async (req, res) => {
         return res.send(result);
     })
 }
+const findOne2 = async (req, res) => {
+
+    const villas = await req.context.models.Villas.findOne({
+        include: {
+            all: true,
+        },
+        where: { villa_id: req.params.id }
+    });
+    return res.send(villas);
+
+}
 
 
 export default {
     findAll,
     findOne,
     findOne1,
+    findOne2,
     create,
     update,
     remove,
-    rawSQL
+    rawSQL,
 }

@@ -18,6 +18,10 @@ const line_items = (sequelize, DataTypes) => {
       type: DataTypes.STRING(25),
       allowNull: true
     },
+    lite_price: {
+      type: DataTypes.DECIMAL,
+      allowNull: true
+    },
     lite_villa_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
@@ -25,7 +29,7 @@ const line_items = (sequelize, DataTypes) => {
         model: 'villas',
         key: 'villa_id'
       },
-      unique: "line_items_lite_villa_id_key"
+      unique: "line_items_lite_vica_id_lite_villa_id_key"
     },
     lite_vica_id: {
       type: DataTypes.INTEGER,
@@ -34,7 +38,7 @@ const line_items = (sequelize, DataTypes) => {
         model: 'villa_cart',
         key: 'vica_id'
       },
-      unique: "line_items_lite_vica_id_key"
+      unique: "line_items_lite_vica_id_lite_villa_id_key"
     }
   }, {
     sequelize,
@@ -43,16 +47,10 @@ const line_items = (sequelize, DataTypes) => {
     timestamps: false,
     indexes: [
       {
-        name: "line_items_lite_vica_id_key",
+        name: "line_items_lite_vica_id_lite_villa_id_key",
         unique: true,
         fields: [
           { name: "lite_vica_id" },
-        ]
-      },
-      {
-        name: "line_items_lite_villa_id_key",
-        unique: true,
-        fields: [
           { name: "lite_villa_id" },
         ]
       },

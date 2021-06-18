@@ -2,7 +2,7 @@ import AuthHelper from '../helpers/AuthHelper'
 import config from '../../config/config'
 import jwt from 'jsonwebtoken'
 import expressJwt from 'express-jwt'
-import formidable from'formidable'
+import formidable from 'formidable'
 import fs from 'fs'
 
 // findAll = select * from users
@@ -11,12 +11,13 @@ const pathDir = __dirname + '../../uploads/';
 const findAll = async (req, res) => {
   const users = await req.context.models.Users.findAll({
     attributes: { exclude: ['user_password', 'user_salt'] },
-    include:[{
-      all:true
+    include: [{
+      all: true
     }]
   });
   return res.send(users);
 }
+
 
 // create user with hash & salt
 const signup = async (req, res) => {
@@ -25,53 +26,53 @@ const signup = async (req, res) => {
 
   if (!fs.existsSync(pathDir)) {
     fs.mkdirSync(pathDir);
-}
+  }
 
-const form = formidable({
+  const form = formidable({
     multiples: true,
     uploadDir: pathDir,
     keepExtensions: true
-});
+  });
 
 
-form
+  form
     .on('fileBegin', function (name, file) {
-        //rename the incoming file to the file's name
-        file.path = pathDir + file.name;
+      //rename the incoming file to the file's name
+      file.path = pathDir + file.name;
     })
     .parse(req, async (err, fields, files) => {
-        if (err) {
-            res.status(400).json({
-                message: "Image tidak bisa diupload"
-            })
-        }
+      if (err) {
+        res.status(400).json({
+          message: "Image tidak bisa diupload"
+        })
+      }
 
-        let user = new req.context.models.Users(fields);
+      let user = new req.context.models.Users(fields);
 
-       
 
-        if (files) {
-            user.user_avatar = files.user_avatar.name;
-            console.log(user);
-        }
 
-        try {
-            const salt = AuthHelper.makeSalt();
-            const hashPassword =AuthHelper.hashPassword(user.user_password, salt);
-            const result = await req.context.models.Users.create({
-                user_name: user.user_name,
-                user_email: user.user_email,
-                user_password: hashPassword,
-                user_salt:salt,
-                user_birthdate:user.user_birthdate,
-                user_gender:user.user_gender,
-                user_avatar:user.user_avatar,
-                user_type: user.user_type,
-            });
-            return res.send(result)
-        } catch (error) {
-            res.send(error.message)
-        }
+      if (files) {
+        user.user_avatar = files.user_avatar.name;
+        console.log(user);
+      }
+
+      try {
+        const salt = AuthHelper.makeSalt();
+        const hashPassword = AuthHelper.hashPassword(user.user_password, salt);
+        const result = await req.context.models.Users.create({
+          user_name: user.user_name,
+          user_email: user.user_email,
+          user_password: hashPassword,
+          user_salt: salt,
+          user_birthdate: user.user_birthdate,
+          user_gender: user.user_gender,
+          user_avatar: user.user_avatar,
+          user_type: user.user_type,
+        });
+        return res.send(result)
+      } catch (error) {
+        res.send(error.message)
+      }
 
 
     });
@@ -103,7 +104,7 @@ const signin = async (req, res) => {
     // tambahkan salt
     if (!AuthHelper.authenticate(user_password, users.dataValues.user_password, users.dataValues.user_salt)) {
       return res.status('401').send({
-        error: "Email and password doesn't match."
+        error: "ups salaaah"
       })
     }
 
@@ -121,7 +122,8 @@ const signin = async (req, res) => {
       token, users: {
         user_id: users.dataValues.user_id,
         user_name: users.dataValues.user_name,
-        user_email: users.dataValues.user_email
+        user_email: users.dataValues.user_email,
+        user_type:users.dataValues.user_type
       }
     });
 
@@ -164,78 +166,101 @@ const update = async (req, res) => {
 
   if (!fs.existsSync(pathDir)) {
     fs.mkdirSync(pathDir);
-}
+  }
 
-const form = formidable({
+
+  const form = formidable({
     multiples: true,
     uploadDir: pathDir,
     keepExtensions: true
-});
+  });
 
 
-form
+  form
     .on('fileBegin', function (name, file) {
-        //rename the incoming file to the file's name
-        file.path = pathDir + file.name;
+      //rename the incoming file to the file's name
+      file.path = pathDir + file.name;
     })
     .parse(req, async (err, fields, files) => {
-        if (err) {
-            res.status(400).json({
-                message: "Image tidak bisa diupload"
-            })
-        }
+      if (err) {
+        res.status(400).json({
+          message: "Image tidak bisa diupload"
+        })
+      }
 
-        let user = new req.context.models.Users(fields);
+      let user = new req.context.models.Users(fields);
 
-       
 
-        if (files) {
-            user.user_avatar = files.user_avatar.name;
-            console.log(user);
-        }
 
-        try {
-            const salt = AuthHelper.makeSalt();
-            const hashPassword =AuthHelper.hashPassword(user.user_password, salt);
-            const result = await req.context.models.Users.update({
-                user_name: user.user_name,
-                user_email: user.user_email,
-                user_password: hashPassword,
-                user_salt:salt,
-                user_birthdate:user.user_birthdate,
-                user_gender:user.user_gender,
-                user_avatar:user.user_avatar,
-                user_type: user.user_type,
-            });
-            return res.send(result)
-        } catch (error) {
-            res.send(error.message)
-        }
+      if (files) {
+        user.user_avatar = files.user_avatar.name;
+        console.log(user);
+      }
+
+      try {
+        const salt = AuthHelper.makeSalt();
+        const hashPassword = AuthHelper.hashPassword(user.user_password, salt);
+        const result = await req.context.models.Users.update({
+          user_name: user.user_name,
+          user_email: user.user_email,
+          user_password: hashPassword,
+          user_salt: salt,
+          user_birthdate: user.user_birthdate,
+          user_gender: user.user_gender,
+          user_avatar: user.user_avatar,
+          user_type: user.user_type,
+        });
+        return res.send(result)
+      } catch (error) {
+        res.send(error.message)
+      }
 
 
     });
 
 }
-const checkL = async (req, res, next) => {
-  try{
-    const data = await req.context.models .Users.findOne({
-      where: {user_id: req.params.id}
+const checkuser = async (req, res, next) => {
+  try {
+    const data = await req.context.models.Users.findOne({
+      where: { user_id: req.params.id }
     })
-    req.user =data 
+    req.user = data
     next()
-  }catch (error){
+  } catch (error) {
     console.log(error)
   }
+}
+const signup1 = async (req, res) => {
+  const { user_name, user_email, user_password, user_birthdate, user_gender, user_type } = req.body;
+
+  const { dataValues } = new req.context.models.Users(req.body);
+
+  const salt = AuthHelper.makeSalt();
+  const hashPassword = AuthHelper.hashPassword(dataValues.user_password, salt);
+
+  const users = await req.context.models.Users.create({
+    user_name: dataValues.user_name,
+    user_email: dataValues.user_email,
+    user_password: hashPassword,
+    user_salt: salt,
+    user_birthdate: dataValues.user_birthdate,
+    user_gender: dataValues.user_gender,
+
+    user_type: dataValues.user_type,
+  });
+
+  return res.send(users)
 }
 
 // Gunakan export default agar semua function bisa dipakai di file lain.
 export default {
   findAll,
   signup,
+  signup1,
   signin,
   requireSignin,
   signout,
   update,
   hasAuthorization,
-  checkL
+  checkuser
 }

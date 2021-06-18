@@ -1,8 +1,9 @@
 import formidable from "formidable";
 import fs from "fs";
+import path from 'path'
 
 //1.declare pathDir untuk menyimpan image di local storage
-const pathDir = __dirname + "../../../uploads/";
+const pathDir = path.join(process.cwd(), "/uploads/");
 
 const upload = async (req, res, next) => {
   // jika directory belum ada then create new one
@@ -15,7 +16,7 @@ const upload = async (req, res, next) => {
   form
     .on("fileBegin", (keyName, file) => {
       console.log(keyName, file);
-      file.path = pathDir + file.name;
+      file.path = path.join(`${pathDir}`, file.name);
     })
     .on("field", (keyName, value) => {
       console.log(keyName, value);
@@ -66,6 +67,7 @@ const uploadMultipart = async (req, res, next) => {
       multipart = { ...multipart, empId, empName };
     })
     .on("file", (keyName, file) => {
+      //file.path = path.join(pathDir, file.name)
       console.log(file);
       const fileName = file.name;
       const fileSize = file.size;
@@ -92,8 +94,12 @@ const download = async (req, res) => {
   res.download(filename);
 };
 
+const photo = (req,res)=>{
+  return res.sendFile(process.cwd())
+}
 export default {
   upload,
   download,
   uploadMultipart,
+  photo
 };

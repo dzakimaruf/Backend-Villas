@@ -1,6 +1,7 @@
 import config from './../config/config'
 import { sequelize } from '../config/config-db';
 import app from './express'
+import store from '../client/views/store'
 
 /* app.listen(config.port, () =>
   console.info('Server started on port %s.', config.port),

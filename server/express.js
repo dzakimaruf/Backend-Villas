@@ -6,6 +6,8 @@ import cors from 'cors'
 import helmet from 'helmet'
 import models from './models/index'
 import routes from './routes/IndexRoute'
+import {Provider} from 'react-redux';
+import store from '../client/views/store'
 
 
 
@@ -23,11 +25,11 @@ app.use(compress())
 app.use(cors());
 
 // 1. client-side 
-// import React from 'react'
-// import ReactDOMServer from 'react-dom/server'
-// import MainRouter from './../client/MainRouter'
-// import { StaticRouter } from 'react-router-dom'
-// import Template from './../template'
+import React from 'react'
+import ReactDOMServer from 'react-dom/server'
+import MainRouter from './../client/MainRouter'
+import { StaticRouter } from 'react-router-dom'
+import Template from '../template'
 import devBundle from './devBundle'
 //comment script dibawah before building for productio?
 devBundle.compile(app)
@@ -37,7 +39,7 @@ app.use('/dist', express.static(path.join(CURRENT_WORKING_DIR, 'dist')))
 
 
 app.use("/minpro/", (req, res) => {
-    res.send("Hello HR-Fullstack JS")
+    res.send("Hello villbook-Fullstack JS")
 });
 
 // #middleware
@@ -52,8 +54,23 @@ app.use('/api/user', routes.UserRoute);
 app.use('/api/comments', routes.VicoRoute);
 app.use('/api/upload', routes.UploadRoute);
 app.use('/api/lite', routes.CheckoutRoute);
+app.use('/api/villasimages', routes.VillasImagesRoute);
 
+app.get('/villbook/*', (req, res) => {
 
+    const context = {}
+    const markup = ReactDOMServer.renderToString(
+      <Provider store={store}> <StaticRouter location={req.url} context={context}>
+        <MainRouter /> 
+      </StaticRouter>
+      </Provider>
+    );
+    if (context.url) {
+      return res.redirect(303, context.url)
+    }
+  
+    res.status(200).send(Template())
+  });
 
 
 

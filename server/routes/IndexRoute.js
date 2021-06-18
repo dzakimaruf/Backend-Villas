@@ -4,7 +4,7 @@ import VillaRoute from "./VillaRoute"
 import VicoRoute from "./VicoRoute"
 import UploadRoute from "./UploadDownloadRoute"
 import CheckoutRoute from "./CheckoutRoute"
-
+import VillasImagesRoute from "./VillasImagesRoute"
 export default {
     UserRoute,
     VillaRoute,
@@ -12,5 +12,6 @@ export default {
     // VicaRoute,
     VicoRoute,
     UploadRoute,
-    CheckoutRoute
+    CheckoutRoute,
+    VillasImagesRoute
 }
