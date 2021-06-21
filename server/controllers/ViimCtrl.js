@@ -34,14 +34,14 @@ const remove = async (req, res) => {
 
 
 const createImage = async (req, res, data) => {
-  const { vimId, fileName, fileSize, fileType, primary } = data;
+  const { viimId, fileName, fileSize, fileType, primary } = data;
   await req.context.models.Villas_images.create({
 
     viim_filename: fileName,
     viim_filesize: fileSize,
     viim_filetype: fileType,
     viim_primary: primary,
-    viim_villa_id: vimId
+    viim_villa_id: viimId
   }).catch((error) => {
     console.log(error);
   });

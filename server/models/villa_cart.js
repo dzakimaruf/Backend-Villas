@@ -6,7 +6,7 @@ const villa_cart = (sequelize, DataTypes) => {
       allowNull: false,
       primaryKey: true
     },
-    vica_cretaed_on: {
+    vica_created_on: {
       type: DataTypes.DATEONLY,
       allowNull: true
     },

@@ -10,21 +10,21 @@ import signin from './auth/Signin';
 import Detail from './views/detailVilla/Detail';
 import PrivateRoute from './auth/PrivateRoute'
 import Signup from './auth/Signup';
-import Cart from './views/Cart';
+import { Cart } from './views/villaCart';
 import AllVillas from './views/allvillas/AllVillas';
 import VillasImages from './views/villas_images/VillasImages';
 
 
-const MainRouter = () => {
+const MainRouter = () => { 
   return (<>
     <Switch>
+    <Route exact path="/villbook/signup" component={Signup}/>
         <Route exact path="/villbook/signin" component={signin}/> 
-        <Route exact path="/villbook/cart" component={Cart}/>
         <Route exact path="/villbook/select" component={select}/>
         <Route exact path="/villbook/Landing" component={LandingPage}/>
-        <Route exact path="/villbook/detail/:id/" component={Detail}/>
-        <Route exact path="/villbook/signup" component={Signup}/>
         <Route exact path="/villbook/allvilla" component={AllVillas}/>
+        <Route exact path="/villbook/detail/:id/" component={Detail}/>
+        <Route exact path="/villbook/cart/" component={Cart}/>
        
       <MainLayout >
         <PrivateRoute exact path="/villbook/user" component={User}/>

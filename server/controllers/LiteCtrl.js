@@ -20,19 +20,19 @@ const findOne = async (req, res) => {
 }
 
 const createlite = async (req, res) => {
-    const cart = req.cart
-    const villas = req.villas
+    
     try {
-        /*  const course = req.course */
-        /* let price = course.course_price * req.body.lite_qty * 0.95 */
-        const lite_price = villas.villa_price
+        let {lite_days} = req.body
+        const cart = req.cart
+        const villas = req.villas 
+        const lite_price = parseInt(villas.villa_price) * lite_days 
         const item = await req.context.models.Line_items.create(
             {
                 lite_days: req.body.lite_days,
                 lite_status: 'cart',
                 lite_villa_id: villas.villa_id,
                 lite_vica_id: cart.vica_id,
-                lite_price: lite_price
+                lite_price: lite_price 
 
             },
         )
@@ -57,9 +57,20 @@ const update1 = async (req, res) => {
     res.send(req.order);
 }
 
+const Delete = async (req,res) =>{
+    try {
+        const lite = await req.context.models.Line_items.destroy({
+            where:{lite_id:req.params.id}
+        })
+    } catch (error) {
+        return res.status(500).json({ message:"Find error " + error })
+    }
+}
+
 export default {
     createlite,
     findAll,
     findOne,
-    update1
+    update1,
+    Delete
 }

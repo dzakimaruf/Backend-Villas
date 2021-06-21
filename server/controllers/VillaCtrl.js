@@ -118,6 +118,45 @@ const findOne2 = async (req, res) => {
     return res.send(villas);
 
 }
+//1. Upload Photo
+const createVillasImages = async (req, res, next) => {
+
+    const workingDir = process.cwd()+"../../uploads/";
+
+     if (!fs.existsSync(workingDir)) {
+        fs.mkdirSync(workingDir);
+    } 
+
+    const form = formidable({
+        multiples: true,
+        uploadDir: workingDir,
+        keepExtensions: true
+    });
+
+    form
+    .on('fileBegin', function (name, file) {
+        file.path = workingDir + file.name;
+    })
+    .parse(req, async (err, fields, files) => {
+        const viim = fields;
+        //const empImage = files;
+
+        // insert into employee models
+
+        const viims ={
+            villa_id : viim.villa_id,
+            viimImages : files
+        }
+        req.viims = viims;
+        next();
+    })
+}
+const check = async (req, res) => {
+    const result = await req.context.models.Villas.findOne({
+        where: { villa_id: req.params.id }
+    });
+    return res.send(result);
+}
 
 
 export default {
@@ -126,7 +165,9 @@ export default {
     findOne1,
     findOne2,
     create,
+    createVillasImages,
     update,
     remove,
     rawSQL,
+    check
 }

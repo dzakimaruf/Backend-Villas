@@ -1,67 +1,105 @@
-import React, { useState } from 'react'
-import { LockClosedIcon } from '@heroicons/react/solid'
-import { Redirect, Link } from 'react-router-dom'
-import { signin } from './ApiAuth'
-import auth from './AuthHelper'
+import React, { useState, useEffect } from 'react'
 import codeid from '../assets/images/villabo.png'
+import { useHistory, useLocation } from 'react-router'
+import { signinUser } from '../views/action/UserAction'
+import { useDispatch, useSelector } from 'react-redux'
 
-export default function Signin(props) {
+export default function Signin() {
 
-  const [values, setValues] = useState({
-    email: undefined,
-    password: undefined,
-    redirect: false,
-    user_type: undefined,
-    error: ''
-  });
+  // const [values, setValues] = useState({
+  //   email: undefined,
+  //   password: undefined,
+  //   redirect: false,
+  //   user_type: undefined,
+  //   error: ''
+  // });
 
-  const [villas, setVillas] = useState("")
+  // const [villas, setVillas] = useState("")
 
-  const handleOnChange = name => event => {
-    setValues({ ...values, [name]: event.target.value })
-  }
+  // const handleOnChange = name => event => {
+  //   setValues({ ...values, [name]: event.target.value })
+  // }
   
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const user = {
-      user_email: values.email || undefined,
-      user_password: values.password || undefined
-    }
+  // const onSubmit = (e) => {
+  //   e.preventDefault();
+  //   const user = {
+  //     user_email: values.email || undefined,
+  //     user_password: values.password || undefined
+  //   }
 
-    signin(user).then((data) => {
-      //console.log(data)
-      if (data.error) {
-        setValues({ ...values, error: data.error })
-      } else {
-        auth.authenticate(data, () => {
-          setValues({ ...values, user_type: data.users.user_type, redirect: true })
-        })
-      }
+  //   signin(user).then((data) => {
+  //     //console.log(data)
+  //     if (data.error) {
+  //       setValues({ ...values, error: data.error })
+  //     } else {
+  //       auth.authenticate(data, () => {
+  //         setValues({ ...values, user_type: data.users.user_type, redirect: true })
+  //       })
+  //     }
 
       
-    })
+  //   })
 
 
-  }
-  
+const [values, setValues] = useState({
+    user_email: "",
+    user_password: "",
+    error: false,
+});
 
-  const { from } = props.location.state || {
-    from: {
-      pathname: '/villbook/'
+const history = useHistory();
+const location = useLocation();
+
+const dispatch = useDispatch();
+
+const handleOnChange = (name) => (event) => {
+    setValues({ ...values, [name]: event.target.value });
+  };
+
+const {userSignin} = useSelector((state) => state);
+const { userInfo } = userSignin
+
+useEffect(() => {
+    console.log(userSignin)
+    //dispatch(signinUser())
+}, [])
+
+useEffect(() => {
+    if(userInfo){
+    /* const redirect = location.search
+    ? new URLSearchParams(location.search).get("redirect")
+    : "/villbook/landing"; */
+    if(userInfo.users && userInfo.users.user_type ==="admin") {
+        history.push("/villbook/adminvilla");
+    } else {
+        history.push("/villbook/landing");
     }
-  }
+  
+    }
+}, [userInfo,history])
+const onSubmit = (e) => {
+    console.log(values.user_email, values.user_password)
+    e.preventDefault();
+    if (values.user_email && values.user_password) {
+        dispatch(signinUser(values.user_email, values.user_password));
+    } 
+};
+  
+  // const { from } = props.location.state || {
+  //   from: {
+  //     pathname: '/villbook/'
+  //   }
+  // }
 
-  if (values.redirect) {
-    if (values.user_type === "admin"){
-      return (<Redirect to="/villbook/adminvilla"/>)
-    }else{
-      return (<Redirect to="/villbook/Landing"/>)
+  // if (values.redirect) {
+  //   if (values.user_type === "admin"){
+  //     return (<Redirect to="/villbook/adminvilla"/>)
+  //   }else{
+  //     return (<Redirect to="/villbook/Landing"/>)
  
-    }
-  }
+  //   }
+  // }
   
-
-
   return (
     <>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
@@ -101,13 +139,13 @@ export default function Signin(props) {
                     name="email"
                     type="email"
                     autoComplete="email"
-                    onChange={handleOnChange('email')}
+                    onChange={handleOnChange('user_email')}
                     required />
                   <input type="text" placeholder="Pasword" class="mb-3 py-3 px-4 border border-gray-400 focus:outline-none rounded-md focus:ring-1 ring-cyan-500" id="password"
                     name="password"
                     type="password"
                     autoComplete="current-password"
-                    onChange={handleOnChange('password')}
+                    onChange={handleOnChange('user_password')}
                     required />
                   <button type="submit" onClick={onSubmit} class="w-full bg-blue-500 text-white p-3 rounded-lg font-semibold text-lg">Login</button>
                   <p class="text-center text-gray-300 text-sm my-4">

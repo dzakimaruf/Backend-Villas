@@ -1,8 +1,16 @@
 module.exports = {
     purge: ['./**/*.html'],
     darkMode: false,
+    
     theme: {
         extend: {},
+        fontFamily: {
+            'sans': ['ui-sans-serif', 'system-ui'],
+            'serif': ['ui-serif', 'Georgia', ],
+            'mono': ['ui-monospace', 'SFMono-Regular'],
+            'display': ['Oswald'],
+            'body': ['Open Sans'],
+           },
         height: {
             "5v": "5vh",
             "7v": "7vh",
@@ -24,4 +32,5 @@ module.exports = {
     plugins: [
         require('@tailwindcss/forms')
     ],
+    
 };

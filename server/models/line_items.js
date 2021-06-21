@@ -46,6 +46,7 @@ const line_items = (sequelize, DataTypes) => {
     schema: 'public',
     timestamps: false,
     indexes: [
+      
       {
         name: "line_items_lite_vica_id_lite_villa_id_key",
         unique: true,
@@ -54,6 +55,7 @@ const line_items = (sequelize, DataTypes) => {
           { name: "lite_villa_id" },
         ]
       },
+
       {
         name: "line_items_pkey",
         unique: true,
@@ -64,10 +66,10 @@ const line_items = (sequelize, DataTypes) => {
     ]
   });
   Line_items.associate = models => {
-    Line_items.belongsTo(models.Villas,{foreignKey: 'lite_villa_id'});
-    Line_items.belongsTo(models.Villa_cart,{foreignKey: 'lite_vica_id'});
+    Line_items.belongsTo(models.Villas, { foreignKey: 'lite_villa_id' });
+    Line_items.belongsTo(models.Villa_cart, { foreignKey: 'lite_vica_id' });
   };
-  
+
   return Line_items
 };
 export default line_items;

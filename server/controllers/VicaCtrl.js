@@ -5,7 +5,7 @@ import Line_items from '../models/line_items';
 
 const createc = async (req, res, next) => {
     try {
-        const user = req.users
+        const user = req.user
         let cart = req.cart
         if(!cart){
         cart = await req.context.models.Villa_cart.create(
@@ -43,9 +43,6 @@ const findOne = async (req, res, next) => {
 }
 
 
-
-
-
 const update = async (req, res) => {
     const { vica_id, vica_created_on, vica_status, vica_user_id } = req.body;
     const villa_cart = await req.context.models.Villa_cart.update(
@@ -72,10 +69,26 @@ const update1 = async (req, res, next) => {
 
     next();
 }
+const findOne1 = async (req, res) => {
+    const villa_cart = await req.context.models.Villa_cart.findOne({
+        where: { vica_id: req.params.id }
+    });
+    return res.send(villa_cart);
+}
+const remove = async (req, res) => {
+    await req.context.models.Villa_cart.destroy({
+        where: { vica_id: req.params.id }
+    }).then(result => {
+        console.log(result);
+        return res.send("delete " + result + " rows.");
+    });
 
+}
 export default {
     createc,
     findOne,
+    findOne1,
     update1,
-    update
+    update,
+    remove
 }

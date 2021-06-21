@@ -50,7 +50,7 @@ app.use(async (req, res, next) => {
 app.use('/api/villa', routes.VillaRoute);
 app.use('/api/user', routes.UserRoute);
 //app.use('/api/orders', routes.OrderRoute);
-//app.use('/api/carts', routes.VicaRoute);
+app.use('/api/cart', routes.VillaCartRoute);
 app.use('/api/comments', routes.VicoRoute);
 app.use('/api/upload', routes.UploadRoute);
 app.use('/api/lite', routes.CheckoutRoute);

@@ -49,8 +49,8 @@ const uploadMultipart = async (req, res, next) => {
   //1. gunakan spread operator
   const dataVillasimage = [];
   let multipart = {};
-  let empId = undefined;
-  let empName = undefined;
+  let viimId = undefined;
+  let viimName = undefined;
 
   const form = formidable({ multiples: true, uploadDir: pathDir });
   form.parse(req);
@@ -62,9 +62,9 @@ const uploadMultipart = async (req, res, next) => {
     .on("field", (keyName, value) => {
       fields.push({ keyName, value });
       //2.gunakan spread operator untuk tambah attribute
-      empId = keyName === "viim_villa_id" ? value : empId;
-      empName = keyName === "villa_title" ? value : empName;
-      multipart = { ...multipart, empId, empName };
+      viimId = keyName === "viim_villa_id" ? value : viimId;
+      viimName = keyName === "villa_title" ? value : viimName;
+      multipart = { ...multipart, viimId, viimName };
     })
     .on("file", (keyName, file) => {
       //file.path = path.join(pathDir, file.name)

@@ -105,7 +105,7 @@ export default function Select() {
 
           <div class="flex -mx-2 mb-4">
               <div class="flex-1 px-2">
-                <button onclick="image = i" class="{ 'ring-2 ring-indigo-300 ring-inset' image === i }" class="focus:outline-none w-full rounded-lg h-24 md:h-32 bg-gray-100 flex items-center justify-center">
+                <button onClick="image = i" class="{ 'ring-2 ring-indigo-300 ring-inset' image === i }" class="focus:outline-none w-full rounded-lg h-24 md:h-32 bg-gray-100 flex items-center justify-center">
                   <span text ="i" class="text-2xl"></span>
                 </button>
               </div>   

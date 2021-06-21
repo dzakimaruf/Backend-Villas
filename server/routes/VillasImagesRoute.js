@@ -7,4 +7,8 @@ router.get('/', IndexCtrl.ViimCtrl.findAll);
 router.get('/:id', IndexCtrl.ViimCtrl.findOne);
 router.delete('/:id', IndexCtrl.ViimCtrl.remove);
 
+// router.post('/createphoto/:id', IndexCtrl.VillaCtrl.createVillasImages,
+//                                 IndexCtrl.ViimCtrl.create,
+//                                 IndexCtrl.VillaCtrl.check);
+
 export default router;

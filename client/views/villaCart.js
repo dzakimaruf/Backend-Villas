@@ -1,18 +1,36 @@
-import React, { useState, useEffect } from 'react'
-import ApiVilla from './villas/ApiVilla'
+import React, { useEffect, useState } from 'react'
+import { listOneCart } from './action/CartAction'
+import { useDispatch, useSelector } from 'react-redux';
+import ApiLite from './apiRemove/removeLite';
+import { listVilla } from './action/villaAction';
 
+export const Cart = () => {
 
-export default function Cart({ match })
-{
-  const[villa, setVilla]=useState([])
+  const dispatch = useDispatch();
+  const CartOne = useSelector(state => state.CartOne)
+  const { cart } = CartOne
+  const userSignin = useSelector(state => state.userSignin)
+  const { userInfo } = userSignin
+  const villaList = useSelector(state => state.villaList)
+  const { villa } = villaList
+  
+  useEffect(() => {
+    if (userInfo) {
+      dispatch(listOneCart(userInfo.users.user_id))
+    }
+  }, [dispatch])
+  
+  useEffect(() => {
+    dispatch(listVilla())
+  }, [dispatch])
+  
+  const onDelete = async (id) => {
+    ApiLite.remove(id).then(result => {
+      setStatus(true)
+    })
+  }
 
-  useEffect(()=>{
-      ApiVilla.findOne(match.params.id).then(data=>{
-          setVilla(data)
-      })
-  },[])
   return (
-
 
     <div class="flex justify-center my-6">
       <div class="flex flex-col w-full p-8 text-gray-800 bg-white shadow-lg pin-r pin-y md:w-4/5 lg:w-4/5">
@@ -30,47 +48,52 @@ export default function Cart({ match })
                 <th class="text-right">Total price</th>
               </tr>
             </thead>
-           
-        
-         {villa &&    
+
             <tbody>
-              <tr>
-                <td class="hidden pb-4 md:table-cell">
-                  <a href="#">
-                    <img src="https://limg.app/i/Calm-Cormorant-Catholic-Pinball-Blaster-yM4oub.jpeg" class="w-20 rounded" alt="Thumbnail" />
-                  </a>
-                </td>
-            <td>
-              <a href="#">
-                <p class="mb-2 md:ml-4">{villa.villa_title}</p>
-                <form action="" method="POST">
-                  <button type="submit" class="text-gray-700 md:ml-4">
-                    <small>(Remove item)</small>
-                  </button>
-                </form>
-              </a>
-            </td>
-            <td class="justify-center md:justify-end md:flex mt-6">
-              <div class="w-20 h-10">
-                <div class="relative flex flex-row w-full h-8">
-                <input type="number" value="2" 
-                  class="w-full font-semibold text-center text-gray-700 bg-gray-200 outline-none focus:outline-none hover:text-black focus:text-black" />
-                </div>
-              </div>
-            </td>
-            <td class="hidden text-right md:table-cell">
-              <span class="text-sm lg:text-base font-medium">
-                      10.00€
-              </span>
-            </td>
-            <td class="text-right">
-              <span class="text-sm lg:text-base font-medium">
-                      20.00€
-              </span>
-            </td>
-          </tr>            
+              {cart && cart.line_items && cart.line_items.map((row, index) => {
+                const item = villa && villa.find(x => x.villa_id === row.lite_villa_id)
+                return (
+                  <tr>
+                    <td class="hidden pb-4 md:table-cell">
+                      <a href="#">
+                        <img src={item && `/api/upload/` + item.villa.villas_images} className="h-20 w-10 rounded" alt="Thumbnail" />
+                      </a>
+                    </td>
+                    <td>
+                      <a href="#">
+                        <p className="mb-2 md:ml-4">{item && item.villa_title}</p>
+                        <button onClick={() => {
+                          onDelete(row.lite_id)
+                          window.location = '/villbook/cart/'
+                        }} type="submit"
+                          className="text-gray-700 md:ml-4">
+                          <small>(Remove item)</small>
+                        </button>
+                      </a>
+                    </td>
+                    <td class="justify-center md:justify-end md:flex mt-6">
+                      <div className="w-20 h-10">
+                        <div className="relative flex flex-row w-full h-8">
+                          <input type="number" value={row.lite_days}
+                            className="w-full font-semibold text-center text-gray-700 bg-gray-200 outline-none focus:outline-none hover:text-black focus:text-black" />
+                        </div>
+                      </div>
+                    </td>
+                    <td class="hidden text-right md:table-cell">
+                      <span className="text-sm lg:text-base font-medium">
+                        {new Intl.NumberFormat('en-US', { style: 'decimal' }).format(item && item.villa_price)}
+                      </span>
+                    </td>
+                    <td class="text-right">
+                      <span className="text-sm lg:text-base font-medium">
+                        {new Intl.NumberFormat('en-US', { style: 'decimal' }).format(row.lite_price)}
+                      </span>
+                    </td>
+                  </tr>
+                )
+              })}
             </tbody>
-}
+
           </table>
           <div class="my-4 mt-6 -mx-2 lg:flex">
             <div class="lg:px-2 lg:w-1/2">
@@ -110,10 +133,10 @@ export default function Cart({ match })
                 <div class="flex justify-between border-b">
                   <div class="lg:px-4 lg:py-2 m-2 text-lg lg:text-xl font-bold text-center text-gray-800">
                     Subtotal
-                </div>
+                  </div>
                   <div class="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
                     148,827.53€
-                </div>
+                  </div>
                 </div>
                 <div class="flex justify-between pt-4 border-b">
                   <div class="flex lg:px-4 lg:py-2 m-2 text-lg lg:text-xl font-bold text-gray-800">
