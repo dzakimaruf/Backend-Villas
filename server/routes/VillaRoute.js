@@ -8,6 +8,8 @@ router.get('/:id', IndexCtrl.VillaCtrl.findOne2);
 router.put('/:id', IndexCtrl.VillaCtrl.update);
 router.delete('/:id', IndexCtrl.VillaCtrl.remove);
 router.get('/rawsql/:id', IndexCtrl.VillaCtrl.rawSQL);
+router.get('/search/villa', IndexCtrl.VillaCtrl.findAllSearch);
+router.get('/search/fasilitas', IndexCtrl.VillaCtrl.searchFacility);
 
 //router.post
 

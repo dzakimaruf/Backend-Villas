@@ -6,6 +6,7 @@ import UploadRoute from "./UploadDownloadRoute"
 import CheckoutRoute from "./CheckoutRoute"
 import VillasImagesRoute from "./VillasImagesRoute"
 import VillaCartRoute from "./VillaCartRoute"
+
 export default {
     UserRoute,
     VillaRoute,

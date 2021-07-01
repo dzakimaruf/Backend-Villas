@@ -14,9 +14,13 @@ const line_items = (sequelize, DataTypes) => {
       type: DataTypes.STRING(15),
       allowNull: true
     },
-    lite_order_name: {
-      type: DataTypes.STRING(25),
-      allowNull: true
+    lite_order_id: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
+      references: {
+        model: 'orders',
+        key: 'order_id'
+      }
     },
     lite_price: {
       type: DataTypes.DECIMAL,
@@ -46,7 +50,6 @@ const line_items = (sequelize, DataTypes) => {
     schema: 'public',
     timestamps: false,
     indexes: [
-      
       {
         name: "line_items_lite_vica_id_lite_villa_id_key",
         unique: true,
@@ -55,7 +58,6 @@ const line_items = (sequelize, DataTypes) => {
           { name: "lite_villa_id" },
         ]
       },
-
       {
         name: "line_items_pkey",
         unique: true,
@@ -65,7 +67,9 @@ const line_items = (sequelize, DataTypes) => {
       },
     ]
   });
+
   Line_items.associate = models => {
+    Line_items.belongsTo(models.Orders, { foreignKey: 'lite_order_id' });
     Line_items.belongsTo(models.Villas, { foreignKey: 'lite_villa_id' });
     Line_items.belongsTo(models.Villa_cart, { foreignKey: 'lite_vica_id' });
   };

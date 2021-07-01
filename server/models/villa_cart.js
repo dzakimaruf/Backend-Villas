@@ -37,6 +37,7 @@ const villa_cart = (sequelize, DataTypes) => {
       },
     ]
   });
+  
  Villa_cart.associate = models => {
   Villa_cart.hasMany(models.Line_items,{foreignKey: 'lite_vica_id', onDelete: 'CASCADE'});
   Villa_cart.belongsTo(models.Users,{foreignKey: 'vica_user_id'});

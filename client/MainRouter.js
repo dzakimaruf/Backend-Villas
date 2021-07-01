@@ -13,6 +13,9 @@ import Signup from './auth/Signup';
 import { Cart } from './views/villaCart';
 import AllVillas from './views/allvillas/AllVillas';
 import VillasImages from './views/villas_images/VillasImages';
+import addressInput from './views/address';
+import Order from './views/Order';
+import profile from './views/profile';
 
 
 const MainRouter = () => { 
@@ -22,15 +25,17 @@ const MainRouter = () => {
         <Route exact path="/villbook/signin" component={signin}/> 
         <Route exact path="/villbook/select" component={select}/>
         <Route exact path="/villbook/Landing" component={LandingPage}/>
-        <Route exact path="/villbook/allvilla" component={AllVillas}/>
+        <Route exact path="/villbook/allvilla/" component={AllVillas}/>  
         <Route exact path="/villbook/detail/:id/" component={Detail}/>
         <Route exact path="/villbook/cart/" component={Cart}/>
-       
+        <Route exact path="/villbook/cart/address" component={addressInput}/>
+        <Route exact path="/villbook/order" component={Order}/>
+        <Route exact path="/villbook/profile" component={profile}/>
       <MainLayout >
-        <PrivateRoute exact path="/villbook/user" component={User}/>
-        <PrivateRoute exact path="/villbook/dashboard" component={Home}/>
-        <PrivateRoute exact path="/villbook/adminvilla" component={Villa}/>
-        <PrivateRoute exatt path="/villbook/villasimages" component={VillasImages}/>
+        <Route exact path="/villbook/user" component={User}/>
+        <Route exact path="/villbook/dashboard" component={Home}/>
+        <Route exact path="/villbook/adminvilla" component={Villa}/>
+        <Route exatt path="/villbook/villasimages" component={VillasImages}/>
       </MainLayout>
     </Switch>
 

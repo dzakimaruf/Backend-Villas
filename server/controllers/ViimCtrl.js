@@ -1,5 +1,7 @@
 import formidable from "formidable";
-import fs from "fs"
+import fs from "fs";
+import path from "path";
+import defaultgambar from "../../client/assets/images/default.png"
 
 
 const pathDir = __dirname + "../../uploads/";
@@ -114,6 +116,22 @@ const createFileType = async (req, res) => {
 
     });
 }
+const photo = async (req, res, next) => {
+  const fileName = `${pathDir}/${req.params.filename}`
+
+  if (req.params.filename !== 'null') {
+      res.set("Content-Type", "image/jpeg")
+      return res.download(fileName);
+  }
+
+  next()
+}
+
+const defaultPhoto = (req, res) => {
+  return res.sendFile(process.cwd()+defaultgambar)
+  //return res.sendFile(process.cwd())
+}
+
 
 export default {
   update,
@@ -122,5 +140,8 @@ export default {
   findOne,
   remove,
   createImage,
-  createFileType
+  createFileType,
+  photo,
+  defaultPhoto
+  
 };

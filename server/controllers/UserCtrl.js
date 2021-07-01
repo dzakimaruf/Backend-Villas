@@ -230,6 +230,19 @@ const checkuser = async (req, res, next) => {
     console.log(error)
   }
 }
+
+const check = async (req, res) => {
+  const user = await req.context.models.Users.findOne(
+      {
+          include: [{
+              all: true
+          }], 
+          where: { user_id: req.params.id }
+      }
+  );
+  return res.send(user);
+}
+
 const signup1 = async (req, res) => {
   const { user_name, user_email, user_password, user_birthdate, user_gender, user_type } = req.body;
 
@@ -262,5 +275,6 @@ export default {
   signout,
   update,
   hasAuthorization,
-  checkuser
+  checkuser,
+  check
 }

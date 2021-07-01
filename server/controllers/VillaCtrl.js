@@ -1,5 +1,6 @@
 import { sequelize } from '../../config/config-db';
-import errorHandler from './../helpers/dbErrorHandler'
+import errorHandler from './../helpers/dbErrorHandler';
+import { Op } from 'sequelize';
 
 const findAll = async (req, res) => {
     const villas = await req.context.models.Villas.findAll(
@@ -32,7 +33,6 @@ const findOne1 = async (req, res, next) => {
 
     for (let x of item) {
         const villas = await req.context.models.Villas.findOne({
-            //create body cors_id 
             where: { villa_id: x.lite_villa_id }
         })
         price = villas.villa_price
@@ -157,6 +157,37 @@ const check = async (req, res) => {
     });
     return res.send(result);
 }
+const findAllSearch = async (req, res) => { 
+    const {villa_title} = req.query
+    try {
+        const villa = await req.context.models.Villas.findAll(
+            { where : {villa_title: {[Op.iLike]: `%${villa_title}%`}},
+                include: [{
+                    model: req.context.models.Villas_images
+                }],
+            }
+            );
+            return res.send(villa);
+    } catch (error) {
+        return res.send(error)
+    }   
+  }
+
+  const searchFacility = async (req, res) => { 
+    const {villa_fasilitas} = req.query
+    try {
+        const villa = await req.context.models.Villas.findAll(
+            { where : {villa_fasilitas: {[Op.iLike]: `%${villa_fasilitas}%`}},
+                include: [{
+                    model: req.context.models.Villas_images
+                }],
+            }
+            );
+            return res.send(villa);
+    } catch (error) {
+        return res.send(error)
+    }   
+  }
 
 
 export default {
@@ -169,5 +200,7 @@ export default {
     update,
     remove,
     rawSQL,
-    check
+    check,
+    findAllSearch,
+    searchFacility
 }

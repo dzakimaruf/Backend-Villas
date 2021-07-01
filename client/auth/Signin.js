@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import codeid from '../assets/images/villabo.png'
+import codeid from '../assets/images/villbook.png'
 import { useHistory, useLocation } from 'react-router'
 import { signinUser } from '../views/action/UserAction'
 import { useDispatch, useSelector } from 'react-redux'
@@ -158,7 +158,7 @@ const onSubmit = (e) => {
     
                 </p>
                 <div class="bg-indigo-700 text-indigo-200 md:text-center py-2 px-4">
-                  <a href="http://localhost:3000/villbook/L" class="font-bold hover:text-blue-400" > TheVillaBooking.com</a>
+                  <a href="http://localhost:3000/villbook/landing" class="font-bold hover:text-blue-400" > TheVillaBooking.com</a>
 </div>
 
 

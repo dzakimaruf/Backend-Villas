@@ -3,6 +3,7 @@ import IndexCtrl from '../controllers/IndexCtrl'
 
 const router = Router();
 router.get('/', IndexCtrl.UserCtrl.requireSignin,IndexCtrl.UserCtrl.findAll);
+router.get('/checkuser/:id', IndexCtrl.UserCtrl.check);
 router.post('/signup', IndexCtrl.UserCtrl.signup);
 router.post('/signup1', IndexCtrl.UserCtrl.signup1);
 router.post('/signin', IndexCtrl.UserCtrl.signin);

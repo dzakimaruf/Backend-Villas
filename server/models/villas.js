@@ -11,7 +11,7 @@ const villas = (sequelize, DataTypes) => {
       allowNull: true
     },
     villa_description: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING(300),
       allowNull: true
     },
     villa_address: {

@@ -4,7 +4,7 @@ import {
     CART_LISTONE_FAIL
 } from '../constants/CartConst'
 
-export const listOneCart = (state = {}, action) => {
+export const cartListOneReducer = (state = {}, action) => {
     switch(action.type){
         case CART_LISTONE_REQUEST:
             return {loading:true}

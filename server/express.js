@@ -71,10 +71,7 @@ app.get('/villbook/*', (req, res) => {
   
     res.status(200).send(Template())
   });
-
-
-
-
+  
 // Catch unauthorised errors
 app.use((err, req, res, next) => {
     if (err.name === 'UnauthorizedError') {

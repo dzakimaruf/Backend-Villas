@@ -4,9 +4,9 @@
 // import ApiVillasImages from './ApiVillasImages'
 
 
-
 // export default function AddEditVillasImages(props) {
-//     const [open, setOpen] = useState(true)
+
+//     const [blob, setBlob] = useState(true)
 //     const cancelButtonRef = useRef();
 
 //     const [values, setValues] = useState({
@@ -32,23 +32,16 @@
 //                     viim_villa_id: data.viim_villa_id,
 
 //                 })
-
 //             });
 //         } else {
 //             setValues({
 //                 ...values,
-//                 villa_id: undefined,
-//                 villa_title: "",
-//                 villa_description: "",
-//                 villa_address: "",
-//                 villa_tipe: "",
-//                 villa_kamar_tidur: Number,
-//                 villa_kamar_mandi: Number,
-//                 villa_lantai: Number,
-//                 villa_fasilitas: "",
-//                 villa_status:"",
-//                 villa_price: Number,
-//                 villa_user_id: Number,
+//         viim_id: '',
+//         viim_filename: '',
+//         viim_filesize: '',
+//         viim_filetype: '',
+//         viim_primary: '',
+//         viim_villa_id: '',
 //             })
 //         }
 
@@ -61,38 +54,24 @@
 //     }
 
 //     const onSubmit = () => {
-//         const villa = {
-//             villa_id: undefined,
-//             villa_title: values.villa_title,
-//             villa_description: values.villa_description,
-//             villa_address: values.villa_address,
-//             villa_tipe: values.villa_tipe,
-//             villa_kamar_tidur: values.villa_kamar_tidur,
-//             villa_kamar_mandi: values.villa_kamar_mandi,
-//             villa_lantai: values.villa_lantai,
-//             villa_fasilitas: values.villa_fasilitas,
-//             villa_price: values.villa_price,
-//             villa_status: values.villa_status,
-//             villa_user_id: values.villa_user_id,
+//         const villaimages = {
+//             viim_id: values.viim_id,
+//                     viim_filename: values.viim_filename,
+//                     viim_filesize: values.viim_filesize,
+//                     viim_filetype: values.viim_filetype,
+//                     viim_primary: values.viim_primary,
+//                     viim_villa_id: values.viim_villa_id,
 
 //         }
 //         if (props.villa.actionType === 'Add') {
 //             const villa = {
-//                 villa_id: values.villa_id || undefined,
-//                 villa_title: values.villa_title || undefined,
-//                 villa_description: values.villa_description || undefined,
-//                 villa_address: values.villa_address || undefined,
-//                 villa_tipe: values.villa_tipe || undefined,
-//                 villa_kamar_tidur: values.villa_kamar_tidur || undefined,
-//                 villa_kamar_mandi: values.villa_kamar_mandi || undefined,
-//                 villa_lantai: values.villa_lantai || undefined,
-//                 villa_fasilitas: values.villa_fasilitas || undefined,
-//                 villa_price: values.villa_price || undefined,
-//                 villa_status: values.villa_status || undefined,
-//                 villa_user_id: values.villa_user_id || undefined,
-
+//                 viim_filename: values.viim_filename || undefined,
+//                 viim_filesize: values.viim_filesize || undefined,
+//                 viim_filetype: values.viim_filetype || undefined,
+//                 viim_primary: values.viim_primary || undefined,
+//                 viim_villa_id: values.viim_villa_id || undefined         
 //             }
-//             apiVilla.create(villa).then(result => {
+//             ApiVillasImages.create(villa).then(result => {
 //                 console.log(result);
 //             })
 

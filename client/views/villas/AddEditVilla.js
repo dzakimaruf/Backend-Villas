@@ -245,7 +245,7 @@ export default function AddEditVilla(props) {
                                                                     <div class="col-span-6 sm:col-span-6 lg:col-span-2">
                                                                         <input type="text" name="villa_id" id="villa_id"
                                                                             onChange={handleOnChange('villa_id')}
-                                                                            value={values.villa_id} />
+                                                                            value={values.villa_id} class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"/>
 
                                                                         <label for="villa_title" class="block text-sm font-medium text-gray-700">Villa</label>
                                                                         <input type="text" name="villa_title" id="villa_title"

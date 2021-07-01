@@ -44,11 +44,14 @@ const createlite = async (req, res) => {
 }
 const update1 = async (req, res) => {
     const { item } = req.data;
+    const orders = req.order
 
     for (let x of item) {
         await req.context.models.Line_items.update(
             {
-                lite_status: "ordered",
+                lite_status: "checkout",
+                lite_order_id: orders.order_id,
+                lite_price: orders.order_total_due
             },
             { returning: true, where: { lite_id: x.lite_id } }
         );
@@ -66,11 +69,29 @@ const Delete = async (req,res) =>{
         return res.status(500).json({ message:"Find error " + error })
     }
 }
+const checkpay = async (req,res)=>{
+    const orderd = req.order || req.cekord
+    const closes = req.cekcart
+
+    for (const data of closes.line_items) {
+        try {
+            await req.context.models.Line_items.update({
+            lite_status : 'ordered',
+            lite_order_id : orderd.order_id
+        },
+        {returning : true, where :{lite_id : data.lite_id }})
+        } catch (error) {
+            return res.send(error)
+        }
+    }
+    return res.send("Thank you, hope you enjoy your holidays")
+}
 
 export default {
     createlite,
     findAll,
     findOne,
     update1,
-    Delete
+    Delete,
+    checkpay
 }

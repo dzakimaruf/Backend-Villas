@@ -5,7 +5,11 @@ import {
     USER_SIGNIN_SUCCESS,
     USER_REGISTER_FAIL,
     USER_REGISTER_REQUEST,
-    USER_REGISTER_SUCCESS
+    USER_REGISTER_SUCCESS,
+    USER_FINDONE_REQUEST,
+    USER_FINDONE_SUCCESS,
+    USER_FINDONE_FAIL
+
 } from '../constants/UserConst'
 
 export const signinUser = (email, password) => async (dispatch) => {
@@ -52,5 +56,22 @@ export const registerUser = (user) => async (dispatch) => {
       ? error.response.data.message
       : error.message,
     })
+  }
+}
+export const userOne = (id) => async (dispatch) => {
+  dispatch({
+      type: USER_FINDONE_REQUEST
+  })
+  try {
+      const { data } = await axios.get(`/api/user/checkuser/${id}`)
+      dispatch({
+          type: USER_FINDONE_SUCCESS, payload: data
+      })
+  } catch (error) {
+      dispatch({
+          type: USER_FINDONE_FAIL,
+          payload: error.response && error.response.data.message
+              ? error.response.data.message : error.message
+      })
   }
 }
